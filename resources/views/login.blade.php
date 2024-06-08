@@ -46,7 +46,6 @@
         <form method="post" id="form-login">
             @csrf
             <div class="form-login-container">
-                {{--                <img src="{{ asset('/assets/images/horizontal-logo.jpeg') }}" alt="brand-image">--}}
                 <p style="font-size: 1em; color: var(--dark); font-weight: bold; text-align: center; margin-bottom: 5px;">
                     Selamat Datang Di Sistem Pakar Diagnosa Penyakit ISPA</p>
                 <p style="font-size: 0.7em; color: var(--dark-tint); text-align: center;">Masukan Username dan
