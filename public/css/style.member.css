@@ -126,7 +126,7 @@ a.custom-nav-brand img {
     background-color: white;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
-    width: 650px;
+    width: 750px;
     height: 400px;
     display: flex;
 }
@@ -149,17 +149,17 @@ a.custom-nav-brand img {
 }
 
 .card-login .image-login-container {
-    width: 350px;
+    width: 450px;
     height: 100%;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
 }
 
 .image-login-container img {
-    width: 350px;
+    width: 450px;
     height: 100%;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     object-fit: cover;
     object-position: center center;
 }

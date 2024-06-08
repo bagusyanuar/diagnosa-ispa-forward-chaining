@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::match(['post', 'get'],'/', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
+Route::match(['post', 'get'],'/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('register');
