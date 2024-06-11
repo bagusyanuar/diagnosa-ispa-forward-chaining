@@ -13,5 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::match(['post', 'get'],'/', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
-Route::match(['post', 'get'],'/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('register');
+Route::match(['post', 'get'], '/', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
+Route::match(['post', 'get'], '/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('register');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+});

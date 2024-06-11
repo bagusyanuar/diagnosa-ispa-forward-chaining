@@ -32,7 +32,7 @@
             title: 'Success',
             text: '{{ \Illuminate\Support\Facades\Session::get('success') }}',
             icon: 'success',
-            timer: 700
+            timer: 1500
         }).then(() => {
             window.location.href = '/';
         })
