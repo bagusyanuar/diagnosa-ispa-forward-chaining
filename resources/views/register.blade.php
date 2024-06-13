@@ -79,7 +79,7 @@
                     <option value="laki-laki">Perempuan</option>
                 </select>
 
-                <a href="#" class="btn-action-primary mb-3" id="btn-login">Daftar</a>
+                <a href="#" class="btn-action-primary mb-3" id="btn-register">Daftar</a>
                 <div class="d-flex align-items-center justify-content-center w-100" style="font-size: 0.7em">
                     <span class="me-1" style="color: var(--dark-tint)">Sudah punya akun?</span>
                     <a href="{{ route('login') }}"
@@ -99,15 +99,15 @@
         crossorigin="anonymous"></script>
 <script src="{{ asset('/js/helper.js') }}"></script>
 <script>
-    function eventLogin() {
-        $('#btn-login').on('click', function (e) {
+    function eventRegister() {
+        $('#btn-register').on('click', function (e) {
             e.preventDefault();
-            $('#form-login').submit();
+            $('#form-register').submit();
         })
     }
 
     $(document).ready(function () {
-        eventLogin();
+        eventRegister();
     })
 </script>
 </body>
