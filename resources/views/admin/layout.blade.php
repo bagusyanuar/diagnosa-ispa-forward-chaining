@@ -51,14 +51,14 @@
             <ul class="nav nav-sidebar nav-pills flex-column" style="gap: 0.25rem">
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin*') ? 'active' : '' }}">
+                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
                         <i class="bx bxs-dashboard"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/kategori*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.gejala') }}"
+                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/gejala*') ? 'active' : '' }}">
                         <i class='bx bx-purchase-tag'></i>
                         <p>Gejala</p>
                     </a>

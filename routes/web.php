@@ -18,4 +18,8 @@ Route::match(['post', 'get'], '/register', [\App\Http\Controllers\RegisterContro
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::group(['prefix' => 'gejala'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\GejalaController::class, 'index'])->name('admin.gejala');
+    });
 });
