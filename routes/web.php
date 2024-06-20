@@ -39,3 +39,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Admin\AturanController::class, 'setRule'])->name('admin.aturan.edit');
     });
 });
+
+Route::group(['prefix' => 'pasien'], function () {
+
+    Route::match(['post', 'get'], '/', [\App\Http\Controllers\Pasien\KonsultasiController::class, 'index'])->name('pasien.konsultasi');
+
+});
