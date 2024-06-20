@@ -3,22 +3,22 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-1">
         <div>
-            <p class="content-title">Gejala</p>
-            <p class="content-sub-title">Manajemen data gejala</p>
+            <p class="content-title">Penyakit</p>
+            <p class="content-sub-title">Manajemen data penyakit</p>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Gejala</li>
+                <li class="breadcrumb-item active" aria-current="page">Penyakit</li>
             </ol>
         </nav>
     </div>
     <div class="card-content">
         <div class="content-header mb-3">
-            <p class="header-title">Data Gejala</p>
-            <a href="{{ route('admin.gejala.add') }}" class="btn-add">
+            <p class="header-title">Data Penyakit</p>
+            <a href="{{ route('admin.penyakit.add') }}" class="btn-add">
                 <i class='bx bx-plus'></i>
-                <span>Tambah Gejala</span>
+                <span>Tambah Penyakit</span>
             </a>
         </div>
         <hr class="custom-divider"/>

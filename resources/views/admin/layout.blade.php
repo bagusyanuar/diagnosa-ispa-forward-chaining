@@ -64,10 +64,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/product*') ? 'active' : '' }}">
-                        <i class='bx bx-briefcase'></i>
+                    <a href="{{ route('admin.penyakit') }}"
+                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/penyakit*') ? 'active' : '' }}">
+                        <i class='bx bx-label'></i>
                         <p>Jenis Penyakit</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.aturan') }}"
+                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/aturan-diagnosa*') ? 'active' : '' }}">
+                        <i class='bx bx-shape-circle'></i>
+                        <p>Aturan Diagnosa</p>
                     </a>
                 </li>
             </ul>

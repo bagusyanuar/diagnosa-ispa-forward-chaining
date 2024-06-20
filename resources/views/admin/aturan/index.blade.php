@@ -3,30 +3,27 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-1">
         <div>
-            <p class="content-title">Gejala</p>
-            <p class="content-sub-title">Manajemen data gejala</p>
+            <p class="content-title">Aturan Diagnosa</p>
+            <p class="content-sub-title">Manajemen data aturan diagnosa</p>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Gejala</li>
+                <li class="breadcrumb-item active" aria-current="page">Aturan Diagnosa</li>
             </ol>
         </nav>
     </div>
     <div class="card-content">
         <div class="content-header mb-3">
-            <p class="header-title">Data Gejala</p>
-            <a href="{{ route('admin.gejala.add') }}" class="btn-add">
-                <i class='bx bx-plus'></i>
-                <span>Tambah Gejala</span>
-            </a>
+            <p class="header-title">Data Aturan Diagnosa</p>
         </div>
         <hr class="custom-divider"/>
         <table id="table-data" class="display table w-100">
             <thead>
             <tr>
                 <th width="5%" class="text-center">#</th>
-                <th>Nama</th>
+                <th width="20%">Penyakit</th>
+                <th>Aturan / Gejala</th>
                 <th width="10%" class="text-center">Aksi</th>
             </tr>
             </thead>
@@ -62,14 +59,27 @@
                         className: 'middle-header',
                     },
                     {
+                        data: 'aturan',
+                        className: 'middle-header',
+                        render: function (data) {
+                            if (data.length <= 0) {
+                                return  '-'
+                            }
+                            let value = '';
+                            $.each(data, function (k, v) {
+                                    value += v['gejala']['nama']+', '
+                            });
+                            return value;
+                        }
+                    },
+                    {
                         data: null,
                         orderable: false,
                         className: 'text-center middle-header',
                         render: function (data) {
                             let id = data['id'];
-                            let urlEdit = path + '/' + id + '/edit';
+                            let urlEdit = path + '/' + id;
                             return '<div class="w-100 d-flex justify-content-center align-items-center gap-1">' +
-                                '<a href="#" class="btn-table-action-delete" data-id="' + id + '"><i class="bx bx-trash"></i></a>' +
                                 '<a href="' + urlEdit + '" class="btn-table-action-edit"><i class="bx bx-edit-alt"></i></a>' +
                                 '</div>';
                         }

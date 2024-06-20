@@ -6,14 +6,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\CustomController;
 use App\Models\Gejala;
-use App\Models\User;
+use App\Models\Penyakit;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class GejalaController extends CustomController
+class PenyakitController extends CustomController
 {
     public function __construct()
     {
@@ -23,11 +20,11 @@ class GejalaController extends CustomController
     public function index()
     {
         if ($this->request->ajax()) {
-            $data = Gejala::with([])
+            $data = Penyakit::with([])
                 ->get();
             return $this->basicDataTables($data);
         }
-        return view('admin.gejala.index');
+        return view('admin.penyakit.index');
     }
 
     public function add()
@@ -35,34 +32,35 @@ class GejalaController extends CustomController
         if ($this->request->method() === 'POST') {
             return $this->store();
         }
-        return view('admin.gejala.add');
+        return view('admin.penyakit.add');
     }
 
     public function edit($id)
     {
-        $data = Gejala::with([])
+        $data = Penyakit::with([])
             ->findOrFail($id);
         if ($this->request->method() === 'POST') {
             return $this->patch($data);
         }
-        return view('admin.gejala.edit')->with(['data' => $data]);
+        return view('admin.penyakit.edit')->with(['data' => $data]);
     }
 
     public function delete($id)
     {
         try {
-            Gejala::destroy($id);
+            Penyakit::destroy($id);
             return $this->jsonSuccessResponse('Berhasil menghapus data...');
         } catch (\Exception $e) {
             return $this->jsonErrorResponse();
         }
     }
+
     private $rule = [
         'name' => 'required',
     ];
 
     private $message = [
-        'name.required' => 'kolom nama gejala wajib diisi',
+        'name.required' => 'kolom nama penyakit wajib diisi',
     ];
 
     private function store()
@@ -76,8 +74,8 @@ class GejalaController extends CustomController
                 'nama' => $this->postField('name'),
             ];
 
-            Gejala::create($data_request);
-            return redirect()->back()->with('success', 'Berhasil menyimpan data gejala penyakit...');
+            Penyakit::create($data_request);
+            return redirect()->back()->with('success', 'Berhasil menyimpan data penyakit...');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('failed', 'terjadi kesalahan server...');
         }
@@ -99,7 +97,7 @@ class GejalaController extends CustomController
             ];
 
             $data->update($data_request);
-            return redirect()->back()->with('success', 'Berhasil merubah data gejala...');
+            return redirect()->back()->with('success', 'Berhasil merubah data penyakit...');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('failed', 'terjadi kesalahan server...');
         }

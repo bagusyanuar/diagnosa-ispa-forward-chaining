@@ -21,5 +21,20 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'gejala'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\GejalaController::class, 'index'])->name('admin.gejala');
+        Route::match(['post', 'get'],'/add', [\App\Http\Controllers\Admin\GejalaController::class, 'add'])->name('admin.gejala.add');
+        Route::match(['post', 'get'],'/{id}/edit', [\App\Http\Controllers\Admin\GejalaController::class, 'edit'])->name('admin.gejala.edit');
+        Route::post('/{id}/delete', [\App\Http\Controllers\Admin\GejalaController::class, 'delete'])->name('admin.gejala.delete');
+    });
+
+    Route::group(['prefix' => 'penyakit'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\PenyakitController::class, 'index'])->name('admin.penyakit');
+        Route::match(['post', 'get'],'/add', [\App\Http\Controllers\Admin\PenyakitController::class, 'add'])->name('admin.penyakit.add');
+        Route::match(['post', 'get'],'/{id}/edit', [\App\Http\Controllers\Admin\PenyakitController::class, 'edit'])->name('admin.penyakit.edit');
+        Route::post('/{id}/delete', [\App\Http\Controllers\Admin\PenyakitController::class, 'delete'])->name('admin.penyakit.delete');
+    });
+
+    Route::group(['prefix' => 'aturan-diagnosa'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\AturanController::class, 'index'])->name('admin.aturan');
+        Route::match(['post', 'get'],'/{id}', [\App\Http\Controllers\Admin\AturanController::class, 'setRule'])->name('admin.aturan.edit');
     });
 });
