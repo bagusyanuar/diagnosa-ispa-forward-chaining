@@ -43,5 +43,6 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'pasien'], function () {
 
     Route::match(['post', 'get'], '/', [\App\Http\Controllers\Pasien\KonsultasiController::class, 'index'])->name('pasien.konsultasi');
+    Route::get( '/hasil', [\App\Http\Controllers\Pasien\KonsultasiController::class, 'result_page'])->name('pasien.konsultasi.hasil');
 
 });
