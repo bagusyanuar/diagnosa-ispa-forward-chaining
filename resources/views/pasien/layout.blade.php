@@ -57,8 +57,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.gejala') }}"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/riwayat*') ? 'active' : '' }}">
+                    <a href="{{ route('pasien.riwayat') }}"
+                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('pasien/riwayat*') ? 'active' : '' }}">
                         <i class='bx bx-history'></i>
                         <p>Riwayat Konsultasi</p>
                     </a>

@@ -14,7 +14,7 @@ class KonsultasiPenyakit extends Model
     protected $fillable = [
         'konsultasi_id',
         'penyakit_id',
-        'persentasi'
+        'persentase'
     ];
 
     public function konsultasi()

@@ -7,7 +7,12 @@ namespace App\Http\Controllers\Pasien;
 use App\Helper\CustomController;
 use App\Models\Aturan;
 use App\Models\Gejala;
+use App\Models\Konsultasi;
+use App\Models\KonsultasiGejala;
+use App\Models\KonsultasiPenyakit;
 use App\Models\Penyakit;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class KonsultasiController extends CustomController
@@ -20,8 +25,21 @@ class KonsultasiController extends CustomController
     public function index()
     {
         if ($this->request->method() === 'POST') {
-//            $inputs = $this->request->get('gejala');
-            $inputs = ['1', '2', '5'];
+            return $this->store_consult_result();
+        }
+
+        $gejalas = Gejala::with([])
+            ->get();
+        return view('pasien.konsultasi')->with([
+            'gejalas' => $gejalas
+        ]);
+    }
+
+    private function store_consult_result()
+    {
+        try {
+            DB::beginTransaction();
+            $inputs = $this->request->get('gejala');
             if (is_array($inputs)) {
                 $penyakits = Penyakit::with(['aturan.gejala'])
                     ->get();
@@ -57,21 +75,48 @@ class KonsultasiController extends CustomController
                     usort($res, function ($a, $b) {
                         return $a['persentase'] < $b['persentase'];
                     });
+
+                    if (count($res) <= 0) {
+                        DB::rollBack();
+                        return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');
+                    }
+                    $data_consult = [
+                        'user_id' => 6,
+                        'tanggal' => Carbon::now()->format('Y-m-d'),
+                        'no_konsultasi' => 'KS-'.date('YmdHis')
+                    ];
+
+                    $consult = Konsultasi::create($data_consult);
+                    foreach ($res as $r) {
+                        $data_penyakits = [
+                            'konsultasi_id' => $consult->id,
+                            'penyakit_id' => $r['id'],
+                            'persentase' => $r['persentase']
+                        ];
+                        KonsultasiPenyakit::create($data_penyakits);
+                    }
+
+                    foreach ($inputs as $input) {
+                        $data_gejala = [
+                            'konsultasi_id' => $consult->id,
+                            'gejala_id' => $input
+                        ];
+                        KonsultasiGejala::create($data_gejala);
+                    }
+                    DB::commit();
                     return redirect()->route('pasien.konsultasi.hasil')->with('result', $res);
-//                    dd($res);
                 } else {
+                    DB::rollBack();
                     return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');
                 }
-//                dd(count($results));
             } else {
-                return redirect()->back()->with('failed', 'terjadi kesalahan server..');
+                DB::rollBack();
+                return redirect()->back()->with('failed', 'input tidak sesuai...');
             }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('failed', 'terjadi kesalahan server...');
         }
-        $gejalas = Gejala::with([])
-            ->get();
-        return view('pasien.konsultasi')->with([
-            'gejalas' => $gejalas
-        ]);
     }
 
     public function result_page()
