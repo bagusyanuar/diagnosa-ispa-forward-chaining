@@ -46,5 +46,6 @@ Route::group(['prefix' => 'pasien'], function () {
     Route::get('/hasil', [\App\Http\Controllers\Pasien\KonsultasiController::class, 'result_page'])->name('pasien.konsultasi.hasil');
     Route::group(['prefix' => 'riwayat'], function () {
         Route::get('/', [\App\Http\Controllers\Pasien\RiwayatController::class, 'index'])->name('pasien.riwayat');
+        Route::get('/{id}', [\App\Http\Controllers\Pasien\RiwayatController::class, 'detail'])->name('pasien.riwayat.detail');
     });
 });

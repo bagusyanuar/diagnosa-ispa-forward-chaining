@@ -24,4 +24,11 @@ class RiwayatController extends CustomController
         }
         return view('pasien.riwayat.index');
     }
+
+    public function detail($id)
+    {
+        $data = Konsultasi::with(['user', 'penyakit.penyakit', 'gejala.gejala'])
+            ->findOrFail($id);
+        return view('pasien.riwayat.detail')->with(['data' => $data]);
+    }
 }
