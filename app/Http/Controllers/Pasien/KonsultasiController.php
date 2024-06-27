@@ -104,7 +104,7 @@ class KonsultasiController extends CustomController
                         KonsultasiGejala::create($data_gejala);
                     }
                     DB::commit();
-                    return redirect()->route('pasien.konsultasi.hasil')->with('result', $res);
+                    return redirect()->route('pasien.riwayat.detail', ['id' => $consult->id]);
                 } else {
                     DB::rollBack();
                     return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');

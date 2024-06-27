@@ -8,7 +8,7 @@
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('pasien.riwayat') }}">Riwayat Konsultasi</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Gejala</li>
             </ol>
         </nav>
