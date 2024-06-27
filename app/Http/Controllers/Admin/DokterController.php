@@ -91,7 +91,7 @@ class DokterController extends CustomController
             }
             $data_user = [
                 'username' => $this->postField('username'),
-                'password' => Hash::make($this->postField('name')),
+                'password' => Hash::make($this->postField('password')),
                 'role' => 'dokter',
             ];
 
