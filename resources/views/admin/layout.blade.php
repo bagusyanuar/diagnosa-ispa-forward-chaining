@@ -36,7 +36,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a href="#" class="nav-link navbar-link-item">Logout</a>
+            <a href="{{ route('logout') }}" class="nav-link navbar-link-item">Logout</a>
         </li>
     </ul>
 </nav>
@@ -56,27 +56,53 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.gejala') }}"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/gejala*') ? 'active' : '' }}">
-                        <i class='bx bx-purchase-tag'></i>
-                        <p>Gejala</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.penyakit') }}"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/penyakit*') ? 'active' : '' }}">
-                        <i class='bx bx-label'></i>
-                        <p>Jenis Penyakit</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.aturan') }}"
-                       class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/aturan-diagnosa*') ? 'active' : '' }}">
-                        <i class='bx bx-shape-circle'></i>
-                        <p>Aturan Diagnosa</p>
-                    </a>
-                </li>
+                @if(auth()->user()->role === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dokter') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/dokter*') ? 'active' : '' }}">
+                            <i class='bx bx-user'></i>
+                            <p>Dokter</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.pasien') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/pasien*') ? 'active' : '' }}">
+                            <i class='bx bx-group'></i>
+                            <p>Pasien</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.laporan-konsultasi') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/laporan-konsultasi*') ? 'active' : '' }}">
+                            <i class='bx bxs-report' ></i>
+                            <p>Laporan Konsultasi</p>
+                        </a>
+                    </li>
+                @endif
+
+                @if(auth()->user()->role === 'dokter')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.gejala') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/gejala*') ? 'active' : '' }}">
+                            <i class='bx bx-purchase-tag'></i>
+                            <p>Gejala</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.penyakit') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/penyakit*') ? 'active' : '' }}">
+                            <i class='bx bx-label'></i>
+                            <p>Jenis Penyakit</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.aturan') }}"
+                           class="nav-link d-flex align-items-center sidebar-item {{ request()->is('admin/aturan-diagnosa*') ? 'active' : '' }}">
+                            <i class='bx bx-shape-circle'></i>
+                            <p>Aturan Diagnosa</p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

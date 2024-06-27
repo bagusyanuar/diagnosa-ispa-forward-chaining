@@ -67,7 +67,7 @@
                 <a href="#" class="btn-action-primary mb-3" id="btn-login">Login</a>
                 <div class="d-flex align-items-center justify-content-center w-100" style="font-size: 0.7em">
                     <span class="me-1" style="color: var(--dark-tint)">Belum punya akun?</span>
-                    <a href="{{ route('register') }}" style="color: var(--bg-primary); text-decoration: none; font-weight: bold;">Daftar</a>
+                    <a href="{{ route('register') }}" style="color: var(--bg-primary); text-decoration: none; font-weight: bold;">Daftar Pasien</a>
                 </div>
             </div>
         </form>

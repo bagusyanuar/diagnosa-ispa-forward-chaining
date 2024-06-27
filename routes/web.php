@@ -15,10 +15,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::match(['post', 'get'], '/example', [\App\Http\Controllers\ExampleController::class, 'index'])->name('example');
 Route::match(['post', 'get'], '/', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
+Route::get( '/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::match(['post', 'get'], '/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('register');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::group(['prefix' => 'dokter'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\DokterController::class, 'index'])->name('admin.dokter');
+        Route::match(['post', 'get'], '/add', [\App\Http\Controllers\Admin\DokterController::class, 'add'])->name('admin.dokter.add');
+        Route::match(['post', 'get'], '/{id}/edit', [\App\Http\Controllers\Admin\DokterController::class, 'edit'])->name('admin.dokter.edit');
+        Route::post('/{id}/delete', [\App\Http\Controllers\Admin\DokterController::class, 'delete'])->name('admin.dokter.delete');
+    });
+
+    Route::group(['prefix' => 'pasien'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\PasienController::class, 'index'])->name('admin.pasien');
+    });
+
+    Route::group(['prefix' => 'laporan-konsultasi'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan-konsultasi');
+        Route::get('/cetak', [\App\Http\Controllers\Admin\LaporanController::class, 'pdf'])->name('admin.laporan-konsultasi.cetak');
+    });
 
     Route::group(['prefix' => 'gejala'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\GejalaController::class, 'index'])->name('admin.gejala');
