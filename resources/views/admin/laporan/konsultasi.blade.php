@@ -35,7 +35,6 @@
                     <span>Cetak</span>
                 </a>
             </div>
-
         </div>
         <hr class="custom-divider"/>
         <table id="table-data" class="display table w-100">
