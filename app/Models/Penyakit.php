@@ -12,7 +12,9 @@ class Penyakit extends Model
     protected $table = 'penyakits';
 
     protected $fillable = [
-        'nama'
+        'nama',
+        'keterangan',
+        'pencegahan'
     ];
 
     public function aturan()

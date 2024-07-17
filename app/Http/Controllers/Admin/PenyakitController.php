@@ -57,10 +57,14 @@ class PenyakitController extends CustomController
 
     private $rule = [
         'name' => 'required',
+        'description' => 'required',
+        'prevention' => 'required',
     ];
 
     private $message = [
         'name.required' => 'kolom nama penyakit wajib diisi',
+        'description.required' => 'kolom keterangan penyakit wajib diisi',
+        'prevention.required' => 'kolom pencegahan penyakit wajib diisi',
     ];
 
     private function store()
@@ -72,6 +76,8 @@ class PenyakitController extends CustomController
             }
             $data_request = [
                 'nama' => $this->postField('name'),
+                'keterangan' => $this->postField('description'),
+                'pencegahan' => $this->postField('prevention'),
             ];
 
             Penyakit::create($data_request);
@@ -94,6 +100,8 @@ class PenyakitController extends CustomController
             }
             $data_request = [
                 'nama' => $this->postField('name'),
+                'keterangan' => $this->postField('description'),
+                'pencegahan' => $this->postField('prevention'),
             ];
 
             $data->update($data_request);

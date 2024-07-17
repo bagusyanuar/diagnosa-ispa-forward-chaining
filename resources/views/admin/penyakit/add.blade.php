@@ -45,6 +45,16 @@
                     </span>
                 @endif
             </div>
+            <div class="w-100 mb-3">
+                <label for="description" class="form-label input-label">Keterangan</label>
+                <textarea rows="6" placeholder="Keterangan Penyakit" class="text-input" id="description"
+                          name="description"></textarea>
+            </div>
+            <div class="w-100">
+                <label for="prevention" class="form-label input-label">Pencegahan</label>
+                <textarea rows="6" placeholder="Pencegahan" class="text-input" id="prevention"
+                          name="prevention"></textarea>
+            </div>
             <hr class="custom-divider"/>
             <div class="d-flex align-items-center justify-content-end w-100">
                 <a href="#" class="btn-add" id="btn-save">

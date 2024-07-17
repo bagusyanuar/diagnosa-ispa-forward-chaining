@@ -46,5 +46,15 @@
                 </p>
             @endforeach
         </div>
+        <hr class="custom-divider"/>
+        <p style="margin-bottom: 10px; font-size: 1em; font-weight: 600; color: var(--dark); text-align: center">
+            PENCEGAHAN
+        </p>
+        <div>
+            <p style="font-size: 0.8em; color: var(--dark); text-align: justify">
+                {{ $data->penyakit[0]->penyakit->pencegahan }}
+            </p>
+
+        </div>
     </div>
 @endsection
