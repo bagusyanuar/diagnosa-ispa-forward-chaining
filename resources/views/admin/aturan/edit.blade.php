@@ -92,7 +92,7 @@
                 responsive: true,
                 paging: true,
                 "fnDrawCallback": function (setting) {
-                    // eventDelete();
+                    eventDelete();
                 },
                 columns: [
                     {
@@ -126,6 +126,17 @@
                 e.preventDefault();
                 AlertConfirm('Konfirmasi!', 'Apakah anda yakin ingin menambah aturan?', function () {
                     $('#form-data').submit();
+                })
+            })
+        }
+
+        function eventDelete() {
+            $('.btn-table-action-delete').on('click', function (e) {
+                e.preventDefault();
+                let id = this.dataset.id;
+                AlertConfirm('Konfirmasi', 'Apakah anda yakin ingin menghapus data?', function () {
+                    let url = path + '/' + id + '/delete';
+                    BaseDeleteHandler(url, id);
                 })
             })
         }

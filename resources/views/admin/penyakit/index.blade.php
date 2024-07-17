@@ -26,7 +26,9 @@
             <thead>
             <tr>
                 <th width="5%" class="text-center">#</th>
-                <th>Nama</th>
+                <th width="15%">Nama</th>
+                <th>Keterangan</th>
+                <th>Pencegahan</th>
                 <th width="10%" class="text-center">Aksi</th>
             </tr>
             </thead>
@@ -59,6 +61,14 @@
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center middle-header',},
                     {
                         data: 'nama',
+                        className: 'middle-header text-center',
+                    },
+                    {
+                        data: 'keterangan',
+                        className: 'middle-header',
+                    },
+                    {
+                        data: 'pencegahan',
                         className: 'middle-header',
                     },
                     {

@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\CustomController;
 use App\Models\Aturan;
+use App\Models\Dokter;
 use App\Models\Gejala;
 use App\Models\Penyakit;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AturanController extends CustomController
@@ -50,6 +53,16 @@ class AturanController extends CustomController
             'data' => $data,
             'gejalas' => $gejalas
         ]);
+    }
+
+    public function deleteRule($id, $rule_id)
+    {
+        try {
+            Aturan::destroy($rule_id);
+            return $this->jsonSuccessResponse('Berhasil menghapus data...');
+        } catch (\Exception $e) {
+            return $this->jsonErrorResponse();
+        }
     }
 
 

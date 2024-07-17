@@ -54,6 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'aturan-diagnosa'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\AturanController::class, 'index'])->name('admin.aturan');
         Route::match(['post', 'get'], '/{id}', [\App\Http\Controllers\Admin\AturanController::class, 'setRule'])->name('admin.aturan.edit');
+        Route::post( '/{id}/{rule_id}/delete', [\App\Http\Controllers\Admin\AturanController::class, 'deleteRule'])->name('admin.aturan.delete');
     });
 });
 
