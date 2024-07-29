@@ -38,20 +38,38 @@
         <hr class="custom-divider"/>
         <form method="post" id="form-data">
             @csrf
-            <div class="w-100 mb-3">
-                <label for="gejala" class="form-label input-label">Gejala <span
-                        class="color-danger">*</span></label>
-                <select id="gejala" name="gejala" class="text-input">
-                    @foreach($gejalas as $gejala)
-                        <option value="{{ $gejala->id }}">{{ $gejala->nama }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('gejala'))
-                    <span id="gejala-error" class="input-label-error">
-                    {{ $errors->first('gejala') }}
-                </span>
-                @endif
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div class="w-100">
+                        <label for="gejala" class="form-label input-label">Gejala <span
+                                class="color-danger">*</span></label>
+                        <select id="gejala" name="gejala" class="text-input">
+                            @foreach($gejalas as $key => $gejala)
+                                <option value="{{ $gejala->id }}">{{ $gejala->nama }} ({{ $key+1 }})</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('gejala'))
+                            <span id="gejala-error" class="input-label-error">
+                                {{ $errors->first('gejala') }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="w-100">
+                        <label for="weight" class="form-label input-label">Gejala <span
+                                class="color-danger">*</span></label>
+                        <input type="number" placeholder="" value="0" class="text-input" id="weight"
+                               name="weight">
+                        @if($errors->has('weight'))
+                            <span id="name-error" class="input-label-error">
+                                {{ $errors->first('weight') }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
             </div>
+
             <hr class="custom-divider"/>
             <div class="d-flex align-items-center justify-content-end w-100">
                 <a href="#" class="btn-add" id="btn-save">
@@ -67,6 +85,7 @@
             <tr>
                 <th width="5%" class="text-center">#</th>
                 <th>Gejala</th>
+                <th width="12%" class="text-center">Bobot</th>
                 <th width="10%" class="text-center">Aksi</th>
             </tr>
             </thead>
@@ -105,6 +124,10 @@
                     {
                         data: 'gejala.nama',
                         className: 'middle-header',
+                    },
+                    {
+                        data: 'bobot',
+                        className: 'middle-header text-center',
                     },
                     {
                         data: null,

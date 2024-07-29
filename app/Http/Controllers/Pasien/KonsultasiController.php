@@ -12,6 +12,7 @@ use App\Models\KonsultasiGejala;
 use App\Models\KonsultasiPenyakit;
 use App\Models\Penyakit;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -43,6 +44,66 @@ class KonsultasiController extends CustomController
             if (is_array($inputs)) {
                 $penyakits = Penyakit::with(['aturan.gejala'])
                     ->get();
+
+                //check
+                $diseaseWeights = [];
+                $summarySymptomsWeight = 0;
+                foreach ($penyakits as $penyakit) {
+                    $tmp = [
+                        'code' => 'p_' . $penyakit->id
+                    ];
+                    $weight = $penyakit->aturan->sum('bobot');
+                    $tmp['total_weight'] = $weight;
+
+
+                    /** @var Collection $rWeight */
+                    $rWeight = $penyakit->aturan;
+                    $symptomsWeights = [];
+                    $totalSymptomsWeight = 0;
+                    foreach ($inputs as $symptom) {
+                        $vSymptom = $rWeight->where('gejala_id', '=', $symptom)->first();
+                        $sWeight = 0;
+                        if ($vSymptom) {
+                            $sWeight = $vSymptom->bobot;
+                        }
+                        $totalSymptomsWeight = $totalSymptomsWeight + $sWeight;
+                        $tmpSymptomsWeight = [
+                            'code' => $symptom,
+                            'weight' => $sWeight
+                        ];
+                        array_push($symptomsWeights, $tmpSymptomsWeight);
+                    }
+                    $tmp['symptoms'] = $symptomsWeights;
+                    $tmp['total_symptoms_weight'] = $totalSymptomsWeight;
+                    $summarySymptomsWeight = $summarySymptomsWeight + $totalSymptomsWeight;
+                    array_push($diseaseWeights, $tmp);
+                }
+
+                $resultMaps = [];
+                foreach ($diseaseWeights as $diseaseWeight) {
+                    $code = $diseaseWeight['code'];
+                    $weight = $diseaseWeight['total_symptoms_weight'];
+                    $value = ($weight / $summarySymptomsWeight) * 100;
+                    $tmpResultMap = [
+                        'code' => $code,
+                        'value' => round($value, 2, PHP_ROUND_HALF_UP),
+                        'formula' => '('.$weight.' / '.$summarySymptomsWeight.') * 100%'
+                    ];
+                    array_push($resultMaps, $tmpResultMap);
+                }
+
+                usort($resultMaps, function ($a, $b) {
+                    return $a['value'] < $b['value'];
+                });
+
+                $diseaseMap = [
+                    'total_symptoms_weight' => $summarySymptomsWeight,
+                    'result_map' => $resultMaps,
+                    'data_map' => $diseaseWeights,
+                ];
+
+
+                return $this->jsonSuccessResponse('success', $diseaseMap);
                 $rules = [];
                 foreach ($penyakits as $penyakit) {
                     $tmpRules['penyakit'] = (string)$penyakit->id;
@@ -83,7 +144,7 @@ class KonsultasiController extends CustomController
                     $data_consult = [
                         'user_id' => 6,
                         'tanggal' => Carbon::now()->format('Y-m-d'),
-                        'no_konsultasi' => 'KS-'.date('YmdHis')
+                        'no_konsultasi' => 'KS-' . date('YmdHis')
                     ];
 
                     $consult = Konsultasi::create($data_consult);

@@ -13,7 +13,8 @@ class Aturan extends Model
 
     protected $fillable = [
         'penyakit_id',
-        'gejala_id'
+        'gejala_id',
+        'bobot'
     ];
 
     public function penyakit()

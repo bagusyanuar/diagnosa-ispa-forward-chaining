@@ -87,10 +87,12 @@ class AturanController extends CustomController
             }
 
             $gejalaID = $this->postField('gejala');
+            $bobot = $this->postField('weight');
 
             $data_request = [
                 'penyakit_id' => $data->id,
                 'gejala_id' => $gejalaID,
+                'bobot' => $bobot
             ];
 
             $isRuleExist = Aturan::with([])
