@@ -87,7 +87,7 @@ class KonsultasiController extends CustomController
                     $tmpResultMap = [
                         'code' => $code,
                         'value' => round($value, 2, PHP_ROUND_HALF_UP),
-                        'formula' => '('.$weight.' / '.$summarySymptomsWeight.') * 100%'
+                        'formula' => '(' . $weight . ' / ' . $summarySymptomsWeight . ') * 100%'
                     ];
                     array_push($resultMaps, $tmpResultMap);
                 }
@@ -102,74 +102,33 @@ class KonsultasiController extends CustomController
                     'data_map' => $diseaseWeights,
                 ];
 
+                $data_consult = [
+                    'user_id' => auth()->id(),
+                    'tanggal' => Carbon::now()->format('Y-m-d'),
+                    'no_konsultasi' => 'KS-' . date('YmdHis')
+                ];
 
-                return $this->jsonSuccessResponse('success', $diseaseMap);
-                $rules = [];
-                foreach ($penyakits as $penyakit) {
-                    $tmpRules['penyakit'] = (string)$penyakit->id;
-
-                    $gejalas = $penyakit['aturan'];
-                    $arrGejalas = [];
-                    foreach ($gejalas as $gejala) {
-                        array_push($arrGejalas, (string)$gejala->gejala->id);
-                    }
-                    $tmpRules['gejala'] = $arrGejalas;
-                    array_push($rules, $tmpRules);
-                }
-                $results = $this->findDiseasesWithPercentage($rules, $inputs);
-                if (count($results) > 0) {
-                    $arrKeys = array_keys($results);
-                    $resPenyakits = Penyakit::with([])
-                        ->whereIn('id', $arrKeys)
-                        ->get();
-                    $res = [];
-                    foreach ($resPenyakits as $resPenyakit) {
-                        $tmpRes['id'] = $resPenyakit->id;
-                        $tmpRes['nama'] = $resPenyakit->nama;
-                        $tmpRes['persentase'] = 0;
-                        if (array_key_exists($resPenyakit->id, $results)) {
-                            $tmpRes['persentase'] = round($results[$resPenyakit->id], 2, PHP_ROUND_HALF_UP);
-                        }
-                        array_push($res, $tmpRes);
-
-                    }
-                    usort($res, function ($a, $b) {
-                        return $a['persentase'] < $b['persentase'];
-                    });
-
-                    if (count($res) <= 0) {
-                        DB::rollBack();
-                        return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');
-                    }
-                    $data_consult = [
-                        'user_id' => 6,
-                        'tanggal' => Carbon::now()->format('Y-m-d'),
-                        'no_konsultasi' => 'KS-' . date('YmdHis')
+                $consult = Konsultasi::create($data_consult);
+                foreach ($resultMaps as $resultMap) {
+                    $diseaseID = explode('_', $resultMap['code']);
+                    $data_penyakits = [
+                        'konsultasi_id' => $consult->id,
+                        'penyakit_id' => $diseaseID[1],
+                        'persentase' => $resultMap['value']
                     ];
-
-                    $consult = Konsultasi::create($data_consult);
-                    foreach ($res as $r) {
-                        $data_penyakits = [
-                            'konsultasi_id' => $consult->id,
-                            'penyakit_id' => $r['id'],
-                            'persentase' => $r['persentase']
-                        ];
-                        KonsultasiPenyakit::create($data_penyakits);
-                    }
-
-                    foreach ($inputs as $input) {
-                        $data_gejala = [
-                            'konsultasi_id' => $consult->id,
-                            'gejala_id' => $input
-                        ];
-                        KonsultasiGejala::create($data_gejala);
-                    }
-                    DB::commit();
-                    return redirect()->route('pasien.riwayat.detail', ['id' => $consult->id]);
-                } else {
-                    DB::rollBack();
-                    return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');
+                    KonsultasiPenyakit::create($data_penyakits);
                 }
+
+                foreach ($inputs as $input) {
+                    $data_gejala = [
+                        'konsultasi_id' => $consult->id,
+                        'gejala_id' => $input
+                    ];
+                    KonsultasiGejala::create($data_gejala);
+                }
+                DB::commit();
+                return redirect()->route('pasien.riwayat.detail', ['id' => $consult->id]);
+
             } else {
                 DB::rollBack();
                 return redirect()->back()->with('failed', 'input tidak sesuai...');
@@ -231,4 +190,43 @@ class KonsultasiController extends CustomController
 
         return $diseasePercentages;
     }
+
+//                return $this->jsonSuccessResponse('success', $diseaseMap);
+//                $rules = [];
+//                foreach ($penyakits as $penyakit) {
+//                    $tmpRules['penyakit'] = (string)$penyakit->id;
+//
+//                    $gejalas = $penyakit['aturan'];
+//                    $arrGejalas = [];
+//                    foreach ($gejalas as $gejala) {
+//                        array_push($arrGejalas, (string)$gejala->gejala->id);
+//                    }
+//                    $tmpRules['gejala'] = $arrGejalas;
+//                    array_push($rules, $tmpRules);
+//                }
+//                $results = $this->findDiseasesWithPercentage($rules, $inputs);
+//                if (count($results) > 0) {
+//                    $arrKeys = array_keys($results);
+//                    $resPenyakits = Penyakit::with([])
+//                        ->whereIn('id', $arrKeys)
+//                        ->get();
+//                    $res = [];
+//                    foreach ($resPenyakits as $resPenyakit) {
+//                        $tmpRes['id'] = $resPenyakit->id;
+//                        $tmpRes['nama'] = $resPenyakit->nama;
+//                        $tmpRes['persentase'] = 0;
+//                        if (array_key_exists($resPenyakit->id, $results)) {
+//                            $tmpRes['persentase'] = round($results[$resPenyakit->id], 2, PHP_ROUND_HALF_UP);
+//                        }
+//                        array_push($res, $tmpRes);
+//
+//                    }
+//                    usort($res, function ($a, $b) {
+//                        return $a['persentase'] < $b['persentase'];
+//                    });
+//
+//                    if (count($res) <= 0) {
+//                        DB::rollBack();
+//                        return redirect()->back()->with('failed', 'hasil diagnosa tidak ditemukan...');
+//                    }
 }
